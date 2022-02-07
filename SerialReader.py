@@ -21,7 +21,7 @@ serialCom.flushInput()
 serialCom.setDTR(True)
 
 # How many data points to record
-kmax = 180#*90
+kmax = 30#180#*90
 
 # Loop through and collect data as it is available
 for k in range(kmax):
@@ -32,9 +32,11 @@ for k in range(kmax):
         print("er" )
         decoded_bytes = s_bytes.decode("utf-8").strip('\r\n')
         # print(decoded_bytes)
-
+        if k == 0: next  # ignore 'Serial initial done' 
+        if k == 1: next  # ignore 'you can see OLED printed OLED initial done!' 
+        if k == 2: next  # ignore 'LoRa Initial success!' 
         # Parse the line
-        if k == 0:
+        if k == 3:
             values = decoded_bytes.split(",")
         else:
             values = [float(x) for x in decoded_bytes.split()]
